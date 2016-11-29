@@ -1,0 +1,40 @@
+version '1.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    flatDir{
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    compile group: 'org.apache.kafka', name: 'kafka-clients', version: '0.10.1.0'
+    compile group: 'org.slf4j', name:'slf4j-jdk14', version:'1.7.21'
+    //compile ':kafka-clients0.10.1.0'
+    //compile ':slf4j-jdk14:1.7.21'
+}
+//return lista all jars
+task listJars {
+    doLast {
+        configurations.compile.each { File file -> println file.name }
+    }
+}
+
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+                'Implementation-Version': version,
+                'Main-Class': 'com.producer.kafka.TestProducer'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
