@@ -24,10 +24,6 @@ import java.util.regex.Pattern;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import org.apache.spark.api.java.function.FlatMapFunction;
-import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.Function2;
-import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.streaming.api.java.*;
 
 import org.apache.spark.sql.RowFactory;
@@ -37,7 +33,6 @@ import org.apache.spark.sql.types.*;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 
-import org.apache.spark.api.java.StorageLevels;
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.kafka.KafkaUtils;
 import org.apache.spark.sql.SparkSession;
@@ -46,7 +41,6 @@ import org.apache.spark.sql.Row;
 
 
 import com.mongodb.spark.MongoSpark;
-import scala.Tuple2;
 import scala.Tuple7;
 import kafka.serializer.StringDecoder;
 
@@ -126,14 +120,17 @@ public final class KafkaSparkMongo {
 
         words.foreachRDD(rdd ->{
 
+            List<StructField> subFields = new ArrayList<>();
+            subFields.add(DataTypes.createStructField("X",DataTypes.StringType,true));
+            subFields.add(DataTypes.createStructField("Y",DataTypes.StringType,true));
+            subFields.add(DataTypes.createStructField("z",DataTypes.StringType,true));
+
             List<StructField> fields=new ArrayList<>();
             fields.add(DataTypes.createStructField("Serial",DataTypes.StringType,true));
             fields.add(DataTypes.createStructField("Zone", DataTypes.StringType,true));
             fields.add(DataTypes.createStructField("Group", DataTypes.StringType,true));
-            fields.add(DataTypes.createStructField("X", DataTypes.StringType,true));
-            fields.add(DataTypes.createStructField("Y", DataTypes.StringType,true));
-            fields.add(DataTypes.createStructField("Z", DataTypes.StringType,true));
-            fields.add(DataTypes.createStructField("Time", DataTypes.StringType,true));
+            fields.add(DataTypes.createStructField("coord",DataTypes.createStructType(subFields),true));
+            fields.add(DataTypes.createStructField("Time",DataTypes.StringType,true));
 
             StructType schema=DataTypes.createStructType(fields);
 
@@ -143,9 +140,14 @@ public final class KafkaSparkMongo {
                     palabra._1(),
                     palabra._2(),
                     palabra._3(),
-                    palabra._4(),
-                    palabra._5(),
-                    palabra._6(),
+                    RowFactory.create(
+//                            Float.parseFloat(palabra._4()),
+  //                          Integer.parseInt(palabra._5()),
+    //                        Integer.parseInt(palabra._6())
+                            palabra._4(),
+                            palabra._5(),
+                            palabra._6()
+                    ),
                     palabra._7()));
 
             Dataset<Row> wordsDataFrame = spark.createDataFrame(rowRDD,schema);

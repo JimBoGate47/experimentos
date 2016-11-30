@@ -2,26 +2,13 @@
   <artifact type="jar" name="KafkaSparkMongo:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/KafkaSparkMongo_jar</output-path>
     <root id="archive" name="KafkaSparkMongo.jar">
-      <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/snappy-0.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/scalap-2.11.8.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/slf4j-api-1.7.16.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/snappy-java-1.1.2.4.jar" path-in-jar="/" />
       <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/scala-library-2.11.8.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/scala-reflect-2.11.8.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/scala-xml_2.11-1.0.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/slf4j-log4j12-1.7.16.jar" path-in-jar="/" />
       <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/spark-sql_2.11-2.0.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/scala-compiler-2.11.8.jar" path-in-jar="/" />
       <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/spark-core_2.11-2.0.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/spark-repl_2.11-2.0.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/spark-sketch_2.11-2.0.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/spark-catalyst_2.11-2.0.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/spark-streaming_2.11-2.0.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/spark-network-shuffle_2.11-2.0.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/scala-parser-combinators_2.11-1.0.4.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/../../../mongo-spark/target/scala-2.11/mongo-spark-connector-assembly-2.1.0-SNAPSHOT.jar" path-in-jar="/" />
       <element id="module-output" name="KafkaSparkMongo" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../mongo-spark/target/scala-2.11/mongo-spark-connector-assembly-2.1.0-SNAPSHOT.jar" path-in-jar="/" />
       <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/spark-streaming-kafka-0-8-assembly_2.11-2.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/usr/local/spark2.0-Hadoop2.6/jars/spark-streaming_2.11-2.0.0.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

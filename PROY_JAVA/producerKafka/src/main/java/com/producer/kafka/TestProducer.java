@@ -2,18 +2,19 @@ package com.producer.kafka;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import java.time.LocalTime;
 
 public class TestProducer {
     public static void main(String[] args) {
 
         Integer N = Integer.parseInt(args[0]);
-        //int N=10;
+        //int N=5;
         Properties props = new Properties();
         props.put("bootstrap.servers","localhost:9092");
         props.put("acks","all");
@@ -33,14 +34,17 @@ public class TestProducer {
 
         String f;
         String [] tmp;
-        LocalTime time = LocalTime.now();
+        LocalDateTime time;
+        DateTimeFormatter formDT= DateTimeFormatter.ISO_DATE_TIME;
 
         Message crear = new Message(argus);
         Random rnd = new Random();
         NumberFormat formatter= new DecimalFormat("###.#");
 
+
         for (int i =0;i<N;i++){
             f = formatter.format(1e4 + rnd.nextInt(100));
+            time=LocalDateTime.now();
 
             vargus[0] = f;
             vargus[1] = zones[rnd.nextInt(3)];
@@ -50,9 +54,9 @@ public class TestProducer {
             vargus[5] = String.valueOf(rnd.nextInt(15) + rnd.nextFloat());
             vargus[6] = time.toString();
 
-
             tmp = crear.create(vargus);
-            //System.out.println(tmp[0]  + tmp[1]);
+
+   //         System.out.println(tmp[0]  + tmp[1]);
             producer.send(new ProducerRecord<>("my-topic",tmp[0],tmp[0] + tmp[1]));
         }
         producer.close();
