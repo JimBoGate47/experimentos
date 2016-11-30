@@ -17,6 +17,11 @@
  */
 
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 
@@ -24,6 +29,7 @@ import java.util.regex.Pattern;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.spark.sql.helpers.StructFields;
 import org.apache.spark.streaming.api.java.*;
 
 import org.apache.spark.sql.RowFactory;
@@ -41,6 +47,7 @@ import org.apache.spark.sql.Row;
 
 
 import com.mongodb.spark.MongoSpark;
+import java.sql.Timestamp;
 import scala.Tuple7;
 import kafka.serializer.StringDecoder;
 
@@ -121,34 +128,32 @@ public final class KafkaSparkMongo {
         words.foreachRDD(rdd ->{
 
             List<StructField> subFields = new ArrayList<>();
-            subFields.add(DataTypes.createStructField("X",DataTypes.StringType,true));
-            subFields.add(DataTypes.createStructField("Y",DataTypes.StringType,true));
-            subFields.add(DataTypes.createStructField("z",DataTypes.StringType,true));
+            subFields.add(DataTypes.createStructField("X",DataTypes.DoubleType,true));
+            subFields.add(DataTypes.createStructField("Y",DataTypes.DoubleType,true));
+            subFields.add(DataTypes.createStructField("z",DataTypes.DoubleType,true));
+
 
             List<StructField> fields=new ArrayList<>();
             fields.add(DataTypes.createStructField("Serial",DataTypes.StringType,true));
             fields.add(DataTypes.createStructField("Zone", DataTypes.StringType,true));
             fields.add(DataTypes.createStructField("Group", DataTypes.StringType,true));
             fields.add(DataTypes.createStructField("coord",DataTypes.createStructType(subFields),true));
-            fields.add(DataTypes.createStructField("Time",DataTypes.StringType,true));
+            fields.add(DataTypes.createStructField("Time",DataTypes.TimestampType,true));
 
             StructType schema=DataTypes.createStructType(fields);
 
-
             SparkSession spark = JavaSparkSessionSingleton.getInstance(rdd.context().getConf());
+
             JavaRDD<Row> rowRDD= rdd.map(palabra -> RowFactory.create(
                     palabra._1(),
                     palabra._2(),
                     palabra._3(),
                     RowFactory.create(
-//                            Float.parseFloat(palabra._4()),
-  //                          Integer.parseInt(palabra._5()),
-    //                        Integer.parseInt(palabra._6())
-                            palabra._4(),
-                            palabra._5(),
-                            palabra._6()
+                            Double.parseDouble(palabra._4()),
+                            Double.parseDouble(palabra._5()),
+                            Double.parseDouble(palabra._6())
                     ),
-                    palabra._7()));
+                    Timestamp.from(Instant.parse(palabra._7()))));
 
             Dataset<Row> wordsDataFrame = spark.createDataFrame(rowRDD,schema);
             wordsDataFrame.show();

@@ -2,7 +2,7 @@ package com.producer.kafka;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -34,17 +34,15 @@ public class TestProducer {
 
         String f;
         String [] tmp;
-        LocalDateTime time;
-        DateTimeFormatter formDT= DateTimeFormatter.ISO_DATE_TIME;
 
         Message crear = new Message(argus);
         Random rnd = new Random();
         NumberFormat formatter= new DecimalFormat("###.#");
 
+        Date date=new Date();
 
         for (int i =0;i<N;i++){
             f = formatter.format(1e4 + rnd.nextInt(100));
-            time=LocalDateTime.now();
 
             vargus[0] = f;
             vargus[1] = zones[rnd.nextInt(3)];
@@ -52,11 +50,11 @@ public class TestProducer {
             vargus[3] = String.valueOf(rnd.nextInt(10) + rnd.nextFloat());
             vargus[4] = String.valueOf(rnd.nextInt(20) + rnd.nextFloat());
             vargus[5] = String.valueOf(rnd.nextInt(15) + rnd.nextFloat());
-            vargus[6] = time.toString();
+            vargus[6] = date.toInstant().toString();
 
             tmp = crear.create(vargus);
 
-   //         System.out.println(tmp[0]  + tmp[1]);
+ //           System.out.println(tmp[0]  + tmp[1]);
             producer.send(new ProducerRecord<>("my-topic",tmp[0],tmp[0] + tmp[1]));
         }
         producer.close();
