@@ -2,8 +2,6 @@ package com.producer.kafka;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import org.apache.kafka.clients.producer.Producer;

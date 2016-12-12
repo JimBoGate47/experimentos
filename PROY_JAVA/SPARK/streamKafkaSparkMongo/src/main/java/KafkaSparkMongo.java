@@ -17,19 +17,13 @@
  */
 
 
-import java.text.SimpleDateFormat;
+
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.*;
-
-
 import java.util.regex.Pattern;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.spark.sql.helpers.StructFields;
 import org.apache.spark.streaming.api.java.*;
 
 import org.apache.spark.sql.RowFactory;
